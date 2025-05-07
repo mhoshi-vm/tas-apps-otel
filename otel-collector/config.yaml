@@ -1,0 +1,31 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: :8080
+
+connectors:
+  spanmetrics:
+    histogram:
+      #! disable histogram to simplify data
+      disable: true
+    exclude_dimensions:
+    - process_command_args
+    
+service:
+  pipelines:
+    metrics:
+      receivers: [spanmetrics]
+      exporters: [prometheus]
+    traces:
+      receivers: [otlp]
+      exporters: [zipkin, spanmetrics]
+
+exporters:
+  zipkin:
+    endpoint: "http://zipkin.apps.internal:9411/api/v2/spans"
+  prometheus:
+    endpoint: "0.0.0.0:18889"
+    send_timestamps: true
+    resource_to_telemetry_conversion:
+      enabled: true
