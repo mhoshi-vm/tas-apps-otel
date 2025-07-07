@@ -14,6 +14,21 @@ scrape_configs:
   scheme: http
   dns_sd_configs:
   - names:
-    - q-s4.*.*.cf*.bosh.
+    - q-s4.*.bosh.
     type: A
     port: 18889
+
+- job_name: hw-exporters
+  scrape_interval: 30s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: https
+  tls_config:
+    cert_file: '/home/vcap/app/cert.pem'
+    key_file: '/home/vcap/app/private_key.pem'
+    insecure_skip_verify: true
+  dns_sd_configs:
+  - names:
+    - q-s4.*.*.p-healthwatch2-*.bosh
+    type: A
+    port: 9090

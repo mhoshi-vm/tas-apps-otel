@@ -1,0 +1,3 @@
+[submodule "cf_exporter"]
+	path = cf_exporter
+	url = https://github.com/cloudfoundry/cf_exporter
